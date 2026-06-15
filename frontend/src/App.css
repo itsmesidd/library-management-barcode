@@ -1,0 +1,39 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #0f172a;
+  color: white;
+}
+
+#root {
+  width: 100%;
+}
+
+.container {
+  padding: 30px;
+  text-align: center;
+}
+
+input[type="file"] {
+  margin: 15px 0;
+}
+
+.book-list {
+  margin-top: 20px;
+  list-style: none;
+  padding: 0;
+}
+
+.book-list li {
+  padding: 10px;
+  margin: 5px auto;
+  max-width: 400px;
+  background: #1e293b;
+  border-radius: 8px;
+}
+
+.preview-image {
+  width: 250px;
+  margin-top: 15px;
+  border-radius: 10px;
+}
