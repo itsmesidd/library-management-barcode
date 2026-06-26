@@ -1,8 +1,9 @@
 import sqlite3
-
+import os
+DB_PATH = os.getenv("DATABASE_URL", "library.db")
 
 def create_database():
-    conn = sqlite3.connect("library.db")
+    conn = sqlite3.connect(DB_PATH)
 
     cursor = conn.cursor()
 
@@ -24,7 +25,7 @@ def create_database():
 
 
 def save_book(isbn, title, author, image_path):
-    conn = sqlite3.connect("library.db")
+    conn = sqlite3.connect(DB_PATH)
 
     cursor = conn.cursor()
 
@@ -39,7 +40,7 @@ def save_book(isbn, title, author, image_path):
 
 
 def get_books():
-    conn = sqlite3.connect("library.db")
+    conn = sqlite3.connect(DB_PATH)
 
     cursor = conn.cursor()
 
@@ -56,7 +57,7 @@ def get_books():
     return books
 
 def book_exists(isbn):
-    conn = sqlite3.connect("library.db")
+    conn = sqlite3.connect(DB_PATH)
 
     cursor = conn.cursor()
 
