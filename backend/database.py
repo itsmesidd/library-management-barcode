@@ -3,7 +3,7 @@ import os
 DB_PATH = os.getenv("DATABASE_URL", "library.db")
 
 def create_database():
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DB_PATH, timeout=10)
 
     cursor = conn.cursor()
 
@@ -25,7 +25,7 @@ def create_database():
 
 
 def save_book(isbn, title, author, image_path):
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DB_PATH, timeout=10)
 
     cursor = conn.cursor()
 
@@ -38,9 +38,24 @@ def save_book(isbn, title, author, image_path):
     conn.commit()
     conn.close()
 
+def add_book(isbn, title, author):
+    conn = sqlite3.connect(DB_PATH, timeout=10)
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        INSERT INTO books
+        (isbn, title, author)
+        VALUES (?, ?, ?)
+    """, (isbn, title, author))
+
+    conn.commit()
+
+    conn.close()
+
 
 def get_books():
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DB_PATH, timeout=10)
 
     cursor = conn.cursor()
 
@@ -56,8 +71,22 @@ def get_books():
 
     return books
 
+def delete_book(book_id):
+    conn = sqlite3.connect(DB_PATH, timeout=10)
+
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "DELETE FROM books WHERE id = ?",
+        (book_id,)
+    )
+
+    conn.commit()
+
+    conn.close()
+
 def book_exists(isbn):
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DB_PATH, timeout=10)
 
     cursor = conn.cursor()
 
@@ -74,3 +103,20 @@ def book_exists(isbn):
 
 if __name__ == "__main__":
     create_database()
+
+def get_book_by_isbn(isbn):
+    conn = sqlite3.connect(DB_PATH, timeout=10)
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT title, author
+        FROM books
+        WHERE isbn = ?
+    """, (isbn,))
+
+    book = cursor.fetchone()
+
+    conn.close()
+
+    return book
