@@ -5,6 +5,7 @@ import os
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from database import (
+    create_database,
     save_book,
     add_book,
     delete_book,
@@ -93,6 +94,7 @@ GOOGLE_BOOKS_API_KEY = os.getenv("GOOGLE_BOOKS_API_KEY")
 
 app = FastAPI()
 
+create_database()
 
 app.add_middleware(
     CORSMiddleware,
